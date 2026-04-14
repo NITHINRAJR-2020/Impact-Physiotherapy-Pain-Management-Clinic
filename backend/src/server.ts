@@ -7,8 +7,8 @@ import { logger } from './middleware/requestLogger';
 async function bootstrap(): Promise<void> {
   // Run DB migrations before accepting traffic
   runMigrations();
-
-  const PORT = process.env.PORT ? Number(process.env.PORT) : env.PORT;
+  
+  const PORT = Number(process.env.PORT) || 3001;
 
   const server = app.listen(PORT, () => {
     logger.info(`🚀 Impact Physio API running on http://localhost:${PORT}`);
