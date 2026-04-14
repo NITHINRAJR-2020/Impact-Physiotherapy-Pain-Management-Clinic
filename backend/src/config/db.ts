@@ -12,7 +12,7 @@ if (!fs.existsSync(dbDir)) {
   fs.mkdirSync(dbDir, { recursive: true });
 }
 
-const db = new Database(process.env.DB_PATH || "./data/database.sqlite");
+const db: any = new Database(dbPath);
 export default db;
 
 // Enable WAL mode for better concurrent read performance

@@ -30,10 +30,13 @@ export const appointmentController = {
    */
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const ipAddress =
-        (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ??
-        req.socket.remoteAddress;
+      const forwarded = req.headers['x-forwarded-for'];
 
+      const ipAddress =
+        typeof forwarded === 'string'
+          ? forwarded.split(',')[0].trim()
+          : req.socket.remoteAddress;
+      
       const appointment = await appointmentService.createAppointment(req.body, ipAddress);
 
       logger.info(`New appointment request: ${appointment.id} — ${appointment.name}`);
@@ -87,8 +90,11 @@ export const appointmentController = {
       ? req.query.status[0]
       : req.query.status;
 
-    const page = parseInt(pageParam ?? '1', 10);
-    const limit = parseInt(limitParam ?? '20', 10);
+    const page =
+      typeof pageParam === 'string' ? parseInt(pageParam, 10) : 1;
+
+    const limit =
+      typeof limitParam === 'string' ? parseInt(limitParam, 10) : 20;
     const status = statusParam as 'pending' | 'confirmed' | 'cancelled' | undefined;
 
     const result = await appointmentService.listAppointments({ page, limit, status });
@@ -125,7 +131,10 @@ export const appointmentController = {
    */
   async getOne(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const id = parseInt(req.params['id'] ?? '');
+      const idParam = req.params.id;
+
+      const id =
+          typeof idParam === 'string' ? parseInt(idParam, 10) : NaN;
       if (isNaN(id)) {
         res.status(400).json({ success: false, message: 'Invalid appointment ID' });
         return;
