@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      target: production
+    container_name: impact-physio-api
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      # Override in .env or as env vars on the host
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-change-me-in-production}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+      RATE_LIMIT_WINDOW_MS: ${RATE_LIMIT_WINDOW_MS:-900000}
+      RATE_LIMIT_MAX_REQUESTS: ${RATE_LIMIT_MAX_REQUESTS:-10}
+      DB_PATH: /app/data/impact_physio.db
+    volumes:
+      # Persist SQLite database file
+      - physio_data:/app/data
+      # Persist logs
+      - physio_logs:/app/logs
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3001/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  physio_data:
+  physio_logs:

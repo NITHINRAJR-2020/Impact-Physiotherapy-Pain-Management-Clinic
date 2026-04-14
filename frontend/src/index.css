@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 205 60% 98%;
+    --foreground: 220 60% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 60% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 60% 14%;
+    --primary: 217 90% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 205 60% 98%;
+    --secondary-foreground: 220 60% 14%;
+    --muted: 210 30% 96%;
+    --muted-foreground: 220 20% 50%;
+    --accent: 217 90% 53%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 50% 90%;
+    --input: 217 50% 90%;
+    --ring: 217 90% 53%;
+    --radius: 1.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F6FAFD;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E6AF3;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1557c9;
+}
+
+/* Medical card shadow */
+.medical-card {
+  box-shadow: 0 18px 45px rgba(14, 36, 77, 0.10);
+  border: 1px solid rgba(30, 106, 243, 0.10);
+}
+
+/* Dot pattern animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.dot-float {
+  animation: float 3.5s ease-in-out infinite;
+}
+
+/* Gradient background */
+.bg-medical-gradient {
+  background: linear-gradient(180deg, #F6FAFD 0%, #FFFFFF 100%);
+}
+
+/* Blue accent card */
+.bg-accent-blue {
+  background: #1E6AF3;
+}
+
+/* Text colors */
+.text-navy {
+  color: #0B1C3B;
+}
+
+.text-gray-medical {
+  color: #6B7A99;
+}
+
+/* Smooth section transitions */
+.section-fade {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Button hover effects */
+.btn-primary {
+  @apply bg-[#1E6AF3] text-white px-8 py-4 rounded-full font-medium transition-all duration-300;
+}
+
+.btn-primary:hover {
+  @apply bg-[#1557c9] shadow-lg;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  @apply bg-white text-[#0B1C3B] px-8 py-4 rounded-full font-medium border border-[#1E6AF3]/20 transition-all duration-300;
+}
+
+.btn-secondary:hover {
+  @apply border-[#1E6AF3] shadow-md;
+  transform: translateY(-2px);
+}
+
+/* Card hover */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 55px rgba(14, 36, 77, 0.14);
+}
+
+/* Image cool-blue filter */
+.img-medical {
+  filter: saturate(0.92) contrast(1.02);
+}
+
+/* Navigation blur */
+.nav-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
