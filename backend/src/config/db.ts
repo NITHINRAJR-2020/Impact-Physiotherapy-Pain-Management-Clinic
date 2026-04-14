@@ -12,7 +12,8 @@ if (!fs.existsSync(dbDir)) {
   fs.mkdirSync(dbDir, { recursive: true });
 }
 
-export const db = new Database(dbPath);
+const db = new Database(process.env.DB_PATH || "./data/database.sqlite");
+export default db;
 
 // Enable WAL mode for better concurrent read performance
 db.pragma('journal_mode = WAL');

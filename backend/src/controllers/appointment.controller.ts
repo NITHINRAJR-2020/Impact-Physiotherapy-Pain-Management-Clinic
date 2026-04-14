@@ -74,21 +74,33 @@ export const appointmentController = {
    *         description: Unauthorized
    */
   async list(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const page = parseInt(req.query['page'] as string) || 1;
-      const limit = parseInt(req.query['limit'] as string) || 20;
-      const status = req.query['status'] as 'pending' | 'confirmed' | 'cancelled' | undefined;
+  try {
+    const pageParam = Array.isArray(req.query.page)
+      ? req.query.page[0]
+      : req.query.page;
 
-      const result = await appointmentService.listAppointments({ page, limit, status });
+    const limitParam = Array.isArray(req.query.limit)
+      ? req.query.limit[0]
+      : req.query.limit;
 
-      res.status(200).json({
-        success: true,
-        ...result,
-      });
-    } catch (err) {
-      next(err);
-    }
-  },
+    const statusParam = Array.isArray(req.query.status)
+      ? req.query.status[0]
+      : req.query.status;
+
+    const page = parseInt(pageParam ?? '1', 10);
+    const limit = parseInt(limitParam ?? '20', 10);
+    const status = statusParam as 'pending' | 'confirmed' | 'cancelled' | undefined;
+
+    const result = await appointmentService.listAppointments({ page, limit, status });
+
+    res.status(200).json({
+      success: true,
+      ...result,
+    });
+  } catch (err) {
+    next(err);
+  }
+},
 
   /**
    * @openapi

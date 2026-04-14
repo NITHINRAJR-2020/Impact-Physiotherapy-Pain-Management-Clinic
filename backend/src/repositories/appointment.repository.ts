@@ -1,4 +1,4 @@
-import { db } from '../config/db';
+import db  from '../config/db';
 import type { Appointment, CreateAppointmentDto, AppointmentListQuery } from '../models/appointment';
 
 export interface PaginatedResult<T> {
