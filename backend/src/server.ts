@@ -6,14 +6,17 @@ import { logger } from './middleware/requestLogger';
 
 async function bootstrap(): Promise<void> {
   // Run DB migrations before accepting traffic
-  runMigrations();
+  // Note: Added await here to ensure migrations finish before the server starts
+  await runMigrations(); 
   
   const PORT = Number(process.env.PORT) || 3001;
+  const HOST = '0.0.0.0'; // Added this line
 
-  const server = app.listen(PORT, () => {
-    logger.info(`🚀 Impact Physio API running on http://localhost:${PORT}`);
-    logger.info(`📚 Swagger docs: http://localhost:${PORT}/api-docs`);
-    logger.info(`🏥 Health check: http://localhost:${PORT}/health`);
+  // Pass HOST as the second argument to app.listen
+  const server = app.listen(PORT, HOST, () => {
+    logger.info(`🚀 Impact Physio API running on http://${HOST}:${PORT}`);
+    logger.info(`📚 Swagger docs: http://${HOST}:${PORT}/api-docs`);
+    logger.info(`🏥 Health check: http://${HOST}:${PORT}/health`);
     logger.info(`   Environment: ${env.NODE_ENV}`);
   });
 
