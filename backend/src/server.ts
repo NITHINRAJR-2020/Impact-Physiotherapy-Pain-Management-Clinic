@@ -8,10 +8,12 @@ async function bootstrap(): Promise<void> {
   // Run DB migrations before accepting traffic
   runMigrations();
 
-  const server = app.listen(env.PORT, () => {
-    logger.info(`🚀 Impact Physio API running on http://localhost:${env.PORT}`);
-    logger.info(`📚 Swagger docs: http://localhost:${env.PORT}/api-docs`);
-    logger.info(`🏥 Health check: http://localhost:${env.PORT}/health`);
+  const PORT = process.env.PORT ? Number(process.env.PORT) : env.PORT;
+
+  const server = app.listen(PORT, () => {
+    logger.info(`🚀 Impact Physio API running on http://localhost:${PORT}`);
+    logger.info(`📚 Swagger docs: http://localhost:${PORT}/api-docs`);
+    logger.info(`🏥 Health check: http://localhost:${PORT}/health`);
     logger.info(`   Environment: ${env.NODE_ENV}`);
   });
 
